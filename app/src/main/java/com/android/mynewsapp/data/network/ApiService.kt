@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiService {
-    @GET("employees")
+    @GET("everything/cnn.json")
     suspend fun getNews(): Response<NewsList>
 }

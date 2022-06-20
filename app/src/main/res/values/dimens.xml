@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_margin_xs">4dp</dimen>
+    <dimen name="item_margin_s">6dp</dimen>
+    <dimen name="item_margin">8dp</dimen>
+    <dimen name="item_margin_xl">12dp</dimen>
+    <dimen name="item_margin_xxl">16dp</dimen>
+
+
+    <dimen name="textHeading">16sp</dimen>
+    <dimen name="textSmall">12sp</dimen>
+</resources>
