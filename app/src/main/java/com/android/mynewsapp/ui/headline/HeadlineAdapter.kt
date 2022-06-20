@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.mynewsapp.R
 import com.android.mynewsapp.data.model.NewsItem
 import com.android.mynewsapp.databinding.ItemHeadlineBinding
 import com.bumptech.glide.Glide
@@ -37,7 +38,7 @@ class HeadlineAdapter (private val onClickListener: OnClickListener) : RecyclerV
         if(newsItem!=null)
         viewHolder.bind(newsItem)
         viewHolder.itemView.setOnClickListener {
-            onClickListener.onClick()
+            onClickListener.onClick(newsItem!!)
         }
     }
 
@@ -60,12 +61,12 @@ class HeadlineAdapter (private val onClickListener: OnClickListener) : RecyclerV
             itemBinding.tvDateTime.text = formatter2.format(date)
             val requestOptions = RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-            Glide.with(context).load(newsItem.urlToImage).centerCrop().apply(requestOptions).into(itemBinding.ivNewsImage)
+            Glide.with(context).load(newsItem.urlToImage).placeholder(R.drawable.ic_launcher_foreground).centerCrop().apply(requestOptions).into(itemBinding.ivNewsImage)
         }
     }
 
-    class OnClickListener(val clickListener: () -> Unit) {
-        fun onClick() = clickListener()
+    class OnClickListener(val clickListener: (newsItem:NewsItem) -> Unit) {
+        fun onClick(newsItem:NewsItem) = clickListener(newsItem)
     }
 
 }

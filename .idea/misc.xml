@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/siddh/Documents/AndroidProject/MyNewsApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/siddh/Documents/AndroidProject/MyNewsApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/siddh/Documents/AndroidProject/MyNewsApp/app/src/main/res/layout/activity_detail_news.xml" value="0.1" />
+        <entry key="..\:/Users/siddh/Documents/AndroidProject/MyNewsApp/app/src/main/res/layout/activity_headline.xml" value="0.1" />
+        <entry key="..\:/Users/siddh/Documents/AndroidProject/MyNewsApp/app/src/main/res/layout/activity_main.xml" value="0.22780797101449277" />
+        <entry key="..\:/Users/siddh/Documents/AndroidProject/MyNewsApp/app/src/main/res/layout/item_headline.xml" value="0.39520333680917624" />
+      </map>
+    </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="dagger.Provides" />
+    </list>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

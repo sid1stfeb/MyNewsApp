@@ -3,6 +3,7 @@ package com.android.mynewsapp.di
 import com.android.mynewsapp.data.network.ApiHelper
 import com.android.mynewsapp.data.network.ApiHelperImpl
 import com.android.mynewsapp.data.network.ApiService
+import com.android.mynewsapp.data.network.AuthInterceptor
 import com.android.mynewsapp.other.Constant
 import dagger.Module
 import dagger.Provides
@@ -17,18 +18,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Singleton
     @Provides
-    fun provideBaseUrl() = Constant.BASE_URL
+    fun provideOkHttpClient():OkHttpClient = OkHttpClient
+        .Builder().addInterceptor(AuthInterceptor()).build()
 
     @Singleton
     @Provides
-    fun provideOkHttpClient():OkHttpClient = OkHttpClient.Builder().build()
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL:String): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(Constant.BASE_URL)
         .client(okHttpClient)
         .build()
 
