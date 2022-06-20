@@ -1,5 +1,6 @@
 package com.android.mynewsapp.ui.headline
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -11,6 +12,8 @@ import com.android.mynewsapp.R
 import com.android.mynewsapp.data.model.NewsList
 import com.android.mynewsapp.data.network.DataHandler
 import com.android.mynewsapp.databinding.ActivityHeadlineBinding
+import com.android.mynewsapp.other.Constant.NEWS_DATA_KEY
+import com.android.mynewsapp.ui.detailnews.DetailNewsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,8 +28,10 @@ class HeadlinesActivity : AppCompatActivity() {
         binding = ActivityHeadlineBinding.inflate(layoutInflater)
         setContentView(binding.root)
         adapter = HeadlineAdapter(HeadlineAdapter.OnClickListener{
-            Toast.makeText(this, "Do Something", LENGTH_SHORT).show()
-
+            val intent = Intent(this, DetailNewsActivity::class.java).apply {
+                putExtra(NEWS_DATA_KEY, it)
+            }
+            startActivity(intent)
         })
         viewModel.getNews()
         binding.rvHeadlineList.layoutManager = LinearLayoutManager(this)

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.android.mynewsapp.ui.detailnews.DetailNewsViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/iv_news_image"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                app:imageUrl="@{viewmodel.image}"
+                android:background="@color/darkBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tv_headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.headline}"
+                android:layout_marginStart="@dimen/item_margin_xl"
+                android:layout_marginEnd="@dimen/item_margin_xl"
+                android:layout_marginTop="@dimen/item_margin_xxl"
+                android:textSize="@dimen/textHeading_l"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/iv_news_image"/>
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.author}"
+                android:textStyle="italic|bold"
+                android:textColor="@color/darkBackground"
+                android:layout_marginStart="@dimen/item_margin_xl"
+                android:layout_marginEnd="@dimen/item_margin_xl"
+                android:layout_marginTop="@dimen/item_margin_xs"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.time}"
+                android:textStyle="italic|bold"
+                android:textColor="@color/darkBackground"
+                android:layout_marginStart="@dimen/item_margin_xl"
+                android:layout_marginEnd="@dimen/item_margin_xl"
+                app:layout_constraintTop_toBottomOf="@id/tv_author"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.detail}"
+                android:textSize="@dimen/textBody_l"
+                android:layout_marginStart="@dimen/item_margin_xl"
+                android:layout_marginEnd="@dimen/item_margin_xl"
+                android:layout_marginTop="@dimen/item_margin"
+                app:layout_constraintTop_toBottomOf="@id/tv_time"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

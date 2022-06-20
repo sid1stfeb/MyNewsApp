@@ -8,5 +8,7 @@
 
 
     <dimen name="textHeading">16sp</dimen>
+    <dimen name="textBody_l">18sp</dimen>
+    <dimen name="textHeading_l">20sp</dimen>
     <dimen name="textSmall">12sp</dimen>
 </resources>
