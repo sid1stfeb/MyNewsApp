@@ -8,6 +8,7 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.mynewsapp.R
 import com.android.mynewsapp.data.model.NewsList
 import com.android.mynewsapp.data.network.DataHandler
@@ -16,12 +17,14 @@ import com.android.mynewsapp.other.Constant.NEWS_DATA_KEY
 import com.android.mynewsapp.ui.detailnews.DetailNewsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class HeadlinesActivity : AppCompatActivity() {
 
     private val viewModel: HeadlineViewModel by viewModels()
     private lateinit var adapter: HeadlineAdapter
     private lateinit var binding: ActivityHeadlineBinding
+    private var page = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +36,14 @@ class HeadlinesActivity : AppCompatActivity() {
             }
             startActivity(intent)
         })
-        viewModel.getNews()
+        viewModel.getNews(page)
+        page++
         binding.rvHeadlineList.layoutManager = LinearLayoutManager(this)
         binding.rvHeadlineList.adapter=adapter
         binding.swipeContainer.setOnRefreshListener {
-            viewModel.getNews()
+            page=1
+            adapter.clearData()
+            viewModel.getNews(page)
             Log.d("HeadlineActivity:", "swipeContainer refresh")
         }
 
@@ -47,8 +53,10 @@ class HeadlinesActivity : AppCompatActivity() {
                 DataHandler.Status.SUCCESS -> {
                     val newsList: NewsList? = it.data
                     Log.d("HeadlineActivity NetworkResponse:", "Data: $newsList")
-                    if (newsList != null)
-                        adapter.setData(newsList.articles)
+                    if ((newsList?.articles?.size ?: 0) > 0)
+                        adapter.setData(newsList!!.articles)
+                    else
+                        page=6
 
                     if (binding.swipeContainer.isRefreshing) {
                         binding.swipeContainer.isRefreshing = false
@@ -67,5 +75,18 @@ class HeadlinesActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.rvHeadlineList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager = LinearLayoutManager::class.java.cast(recyclerView.layoutManager)
+                val totalItemCount = layoutManager!!.itemCount
+                val lastVisible = layoutManager.findLastVisibleItemPosition()
+                val endHasBeenReached = lastVisible + 5 >= totalItemCount
+                if (totalItemCount > 0 && endHasBeenReached && page<=5) {
+                    viewModel.getNews(page)
+                    page++
+                }
+            }
+        })
     }
 }

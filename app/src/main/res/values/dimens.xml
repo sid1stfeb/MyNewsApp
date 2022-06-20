@@ -7,6 +7,7 @@
     <dimen name="item_margin_xxl">16dp</dimen>
 
 
+    <dimen name="textHeading_s">14sp</dimen>
     <dimen name="textHeading">16sp</dimen>
     <dimen name="textBody_l">18sp</dimen>
     <dimen name="textHeading_l">20sp</dimen>

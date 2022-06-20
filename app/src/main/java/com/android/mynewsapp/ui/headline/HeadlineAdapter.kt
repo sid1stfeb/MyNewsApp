@@ -15,10 +15,17 @@ import com.bumptech.glide.request.RequestOptions
 import java.time.format.DateTimeFormatter
 
 class HeadlineAdapter (private val onClickListener: OnClickListener) : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
-    private var dataSet: ArrayList<NewsItem>?=null
+    private var dataSet: ArrayList<NewsItem> = ArrayList()
+
     @SuppressLint("NotifyDataSetChanged")
     fun setData(newDataSet: ArrayList<NewsItem>){
-        dataSet=newDataSet
+        dataSet.addAll(newDataSet)
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearData(){
+        dataSet.clear()
         notifyDataSetChanged()
     }
 

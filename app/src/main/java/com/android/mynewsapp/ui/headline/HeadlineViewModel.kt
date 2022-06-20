@@ -19,11 +19,11 @@ class HeadlineViewModel @Inject constructor(private val apiHelper:ApiHelper): Vi
 
     val headlines : LiveData<DataHandler<NewsList>> = _headlines
 
-    fun getNews() {
+    fun getNews(page:Int) {
         Log.d("HeadlineViewModel:", "getNews" )
         _headlines.postValue(DataHandler.loading(null))
         viewModelScope.launch {
-                apiHelper.getNews().let {
+                apiHelper.getNews(page).let {
                 if (it.isSuccessful){
                     Log.d("HeadlineViewModel Network Success Response:", "Data: ${it.body()}" )
                     _headlines.postValue(DataHandler.success(it.body()))
