@@ -2,4 +2,9 @@
     <string name="app_name">My News App</string>
     <string name="news_image">NewsImage</string>
     <string name="something_wrng">Something went wrong. Please refresh again.</string>
+    <string name="detail">Detail</string>
+    <string name="favorites">Favorites</string>
+    <string name="fav_added">"Added to favorites "</string>
+    <string name="fav_removed">Removed from favorites</string>
+    <string name="share">Share</string>
 </resources>

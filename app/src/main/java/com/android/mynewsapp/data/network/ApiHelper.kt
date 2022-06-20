@@ -4,5 +4,5 @@ import com.android.mynewsapp.data.model.NewsList
 import retrofit2.Response
 
 interface ApiHelper {
-    suspend fun getNews(): Response<NewsList>
+    suspend fun getNews(page:Int): Response<NewsList>
 }
