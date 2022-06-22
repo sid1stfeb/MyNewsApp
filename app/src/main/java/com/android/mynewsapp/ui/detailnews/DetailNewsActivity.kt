@@ -1,6 +1,5 @@
 package com.android.mynewsapp.ui.detailnews
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +10,7 @@ import com.android.mynewsapp.R
 import com.android.mynewsapp.data.model.NewsItem
 import com.android.mynewsapp.databinding.ActivityDetailNewsBinding
 import com.android.mynewsapp.other.Constant.NEWS_DATA_KEY
+import com.android.mynewsapp.other.Util.shareNews
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -51,11 +51,7 @@ class DetailNewsActivity : AppCompatActivity() {
                 true
             }
             R.id.share->{
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_TEXT,
-                    String.format(getString(R.string.share_text), newsItem.title, newsItem.url))
-                startActivity(Intent.createChooser(shareIntent, null))
+                shareNews(this, String.format(getString(R.string.share_text), newsItem.title, newsItem.url))
                 true
             }
             else-> super.onOptionsItemSelected(item)
