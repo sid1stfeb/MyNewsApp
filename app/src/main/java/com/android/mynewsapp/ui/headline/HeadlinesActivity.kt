@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.mynewsapp.R
+import com.android.mynewsapp.data.model.NewsItem
 import com.android.mynewsapp.data.model.NewsList
 import com.android.mynewsapp.data.network.DataHandler
 import com.android.mynewsapp.databinding.ActivityHeadlineBinding
@@ -35,12 +36,7 @@ class HeadlinesActivity : AppCompatActivity() {
     }
 
     private fun initializeView(){
-        adapter = HeadlineAdapter(HeadlineAdapter.OnClickListener{
-            val intent = Intent(this, DetailNewsActivity::class.java).apply {
-                putExtra(NEWS_DATA_KEY, it)
-            }
-            startActivity(intent)
-        })
+        adapter = HeadlineAdapter(HeadlineAdapter.OnClickListener{ startDetailActivity(it) })
         binding.rvHeadlineList.layoutManager = LinearLayoutManager(this)
         binding.rvHeadlineList.adapter=adapter
 
@@ -50,21 +46,7 @@ class HeadlinesActivity : AppCompatActivity() {
             fetchData()
             Log.d("HeadlineActivity:", "swipeContainer refresh")
         }
-        viewModel.headlines.observe(this) {
-            Log.d("HeadlineActivity:", "headlines.observe: ${it.status}")
-            when (it.status) {
-                DataHandler.Status.SUCCESS -> {
-                    setDataInList(it.data)
-                }
-                DataHandler.Status.ERROR -> {
-                    pullRefreshLoader(false)
-                    Toast.makeText(this, R.string.something_wrng, LENGTH_SHORT).show()
-                }
-                DataHandler.Status.LOADING -> {
-                    pullRefreshLoader(true)
-                }
-            }
-        }
+        viewModel.headlines.observe(this) { handleObserverData(it) }
 
         binding.rvHeadlineList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -90,6 +72,22 @@ class HeadlinesActivity : AppCompatActivity() {
         pullRefreshLoader(false)
     }
 
+    private fun handleObserverData(dataHandler: DataHandler<NewsList>) {
+        Log.d("HeadlineActivity:", "headlines.observe: ${dataHandler.status}")
+        when (dataHandler.status) {
+            DataHandler.Status.SUCCESS -> {
+                setDataInList(dataHandler.data)
+            }
+            DataHandler.Status.ERROR -> {
+                pullRefreshLoader(false)
+                Toast.makeText(this, R.string.something_wrng, LENGTH_SHORT).show()
+            }
+            DataHandler.Status.LOADING -> {
+                pullRefreshLoader(true)
+            }
+        }
+    }
+
     private fun fetchData() {
         viewModel.getNews(page)
         page++
@@ -97,5 +95,12 @@ class HeadlinesActivity : AppCompatActivity() {
 
     private fun pullRefreshLoader(refresh:Boolean){
             binding.swipeContainer.isRefreshing = refresh
+    }
+
+    private fun startDetailActivity(newsItem: NewsItem){
+        val intent = Intent(this, DetailNewsActivity::class.java).apply {
+            putExtra(NEWS_DATA_KEY, newsItem)
+        }
+        startActivity(intent)
     }
 }

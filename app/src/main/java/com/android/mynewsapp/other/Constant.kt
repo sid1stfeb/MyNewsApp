@@ -6,4 +6,6 @@ object Constant {
     const val TOP_HEADLINE="top-headlines"
     const val NEWS_DATA_KEY="NewsData"
     const val COUNTRY_ID="in"
+    const val SERVER_DATE_FORMAT="yyyy-MM-dd'T'HH:mm:ss'Z'"
+    const val DATE_FORMAT="dd MMM yyyy 'at' hh:mm a"
 }
