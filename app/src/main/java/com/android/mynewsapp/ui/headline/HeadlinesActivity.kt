@@ -30,48 +30,38 @@ class HeadlinesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHeadlineBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initializeView()
+        fetchData()
+    }
+
+    private fun initializeView(){
         adapter = HeadlineAdapter(HeadlineAdapter.OnClickListener{
             val intent = Intent(this, DetailNewsActivity::class.java).apply {
                 putExtra(NEWS_DATA_KEY, it)
             }
             startActivity(intent)
         })
-        viewModel.getNews(page)
-        page++
         binding.rvHeadlineList.layoutManager = LinearLayoutManager(this)
         binding.rvHeadlineList.adapter=adapter
+
         binding.swipeContainer.setOnRefreshListener {
             page=1
             adapter.clearData()
-            viewModel.getNews(page)
+            fetchData()
             Log.d("HeadlineActivity:", "swipeContainer refresh")
         }
-
         viewModel.headlines.observe(this) {
             Log.d("HeadlineActivity:", "headlines.observe: ${it.status}")
             when (it.status) {
                 DataHandler.Status.SUCCESS -> {
-                    val newsList: NewsList? = it.data
-                    Log.d("HeadlineActivity NetworkResponse:", "Data: $newsList")
-                    if ((newsList?.articles?.size ?: 0) > 0)
-                        adapter.setData(newsList!!.articles)
-                    else
-                        page=6
-
-                    if (binding.swipeContainer.isRefreshing) {
-                        binding.swipeContainer.isRefreshing = false
-                    }
+                    setDataInList(it.data)
                 }
                 DataHandler.Status.ERROR -> {
-                    if (binding.swipeContainer.isRefreshing) {
-                        binding.swipeContainer.isRefreshing = false
-                    }
+                    pullRefreshLoader(false)
                     Toast.makeText(this, R.string.something_wrng, LENGTH_SHORT).show()
                 }
                 DataHandler.Status.LOADING -> {
-                    if (!binding.swipeContainer.isRefreshing) {
-                        binding.swipeContainer.isRefreshing = true
-                    }
+                    pullRefreshLoader(true)
                 }
             }
         }
@@ -88,5 +78,24 @@ class HeadlinesActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun setDataInList(newsList: NewsList?){
+        Log.d("HeadlineActivity NetworkResponse:", "Data: $newsList")
+        if ((newsList?.articles?.size ?: 0) > 0)
+            adapter.setData(newsList!!.articles)
+        else
+            page=6
+
+        pullRefreshLoader(false)
+    }
+
+    private fun fetchData() {
+        viewModel.getNews(page)
+        page++
+    }
+
+    private fun pullRefreshLoader(refresh:Boolean){
+            binding.swipeContainer.isRefreshing = refresh
     }
 }

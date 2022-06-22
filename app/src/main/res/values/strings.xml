@@ -4,7 +4,10 @@
     <string name="something_wrng">Something went wrong. Please refresh again.</string>
     <string name="detail">Detail</string>
     <string name="favorites">Favorites</string>
-    <string name="fav_added">"Added to favorites "</string>
+    <string name="fav_add">Add Favorites</string>
+    <string name="fav_remove">Remove Favorites</string>
+    <string name="fav_added">Added to favorites</string>
     <string name="fav_removed">Removed from favorites</string>
     <string name="share">Share</string>
+    <string name="share_text">%1$s\n\nRead entire article here:\n%2$s</string>
 </resources>
