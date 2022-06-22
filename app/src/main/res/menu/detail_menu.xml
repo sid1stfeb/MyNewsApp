@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/fav"
-        android:title="@string/favorites"
+        android:title="@string/fav_added"
         android:icon="@drawable/ic_action_fav"
         app:showAsAction="ifRoom"/>
 </menu>

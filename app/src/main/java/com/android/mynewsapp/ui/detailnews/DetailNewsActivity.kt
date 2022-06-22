@@ -35,8 +35,6 @@ class DetailNewsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
-        if(isFav)
-            menu.getItem(1).setIcon(R.drawable.ic_action_fav_filled)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -49,33 +47,40 @@ class DetailNewsActivity : AppCompatActivity() {
             R.id.fav->{
                 Toast.makeText(this,
                     R.string.fav_added, Toast.LENGTH_SHORT).show()
-                val toastStr:Int
-                val iconId:Int
-                if(isFav){
-                    toastStr=R.string.fav_removed
-                    iconId=R.drawable.ic_action_fav
-                    isFav=false
-                }else{
-                    toastStr=R.string.fav_added
-                    iconId=R.drawable.ic_action_fav_filled
-                    isFav=true
-                }
-                Toast.makeText(this,
-                    toastStr, Toast.LENGTH_SHORT).show()
-                item.setIcon(iconId)
+                setFavIcon(item)
                 true
             }
             R.id.share->{
                 val shareIntent = Intent(Intent.ACTION_SEND)
                 shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
                 shareIntent.putExtra(Intent.EXTRA_TEXT,
-                    "${newsItem.title}\n\nRead entire article here:\n${newsItem.url}")
-                startActivity(Intent.createChooser(shareIntent, "choose one"))
+                    String.format(getString(R.string.share_text), newsItem.title, newsItem.url))
+                startActivity(Intent.createChooser(shareIntent, null))
                 true
             }
             else-> super.onOptionsItemSelected(item)
         }
 
+    }
+
+    private fun setFavIcon(item: MenuItem){
+        val toastStr:Int
+        val iconId:Int
+        val contentDesc:String
+        if(isFav){
+            toastStr=R.string.fav_removed
+            contentDesc=getString(R.string.fav_add)
+            iconId=R.drawable.ic_action_fav
+            isFav=false
+        }else{
+            toastStr=R.string.fav_added
+            contentDesc=getString(R.string.fav_remove)
+            iconId=R.drawable.ic_action_fav_filled
+            isFav=true
+        }
+        Toast.makeText(this,
+            toastStr, Toast.LENGTH_SHORT).show()
+        item.setIcon(iconId)
+        item.title = contentDesc
     }
 }
