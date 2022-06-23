@@ -41,7 +41,5 @@ class DetailNewsViewModel @Inject constructor() : ViewModel() {
 }
 @BindingAdapter("imageUrl")
 fun loadImage(view: ImageView, url: String?) {
-    val requestOptions = RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-    Glide.with(view.context).load(url).placeholder(R.drawable.ic_launcher_foreground).centerCrop().apply(requestOptions).into(view)
+    Util.loadImage(view.context, url, view)
 }

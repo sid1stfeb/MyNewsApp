@@ -24,11 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     buildFeatures {
         viewBinding true
@@ -36,11 +31,13 @@ android {
     dataBinding {
         enabled true
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'com.google.android.material:material:1.6.1'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
@@ -51,13 +48,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    testImplementation 'junit:junit:4.13.1'
-
-    // Espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-
+    testImplementation "androidx.test.ext:junit-ktx:1.1.3"
 
     // androidx.test
     androidTestImplementation "androidx.test:runner:1.4.0"
@@ -65,48 +56,74 @@ dependencies {
     androidTestImplementation 'androidx.test:core-ktx:1.4.0'
 
     // Room
-    implementation "androidx.room:room-runtime:2.4.2"
-    annotationProcessor "androidx.room:room-compiler:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
-    implementation "androidx.room:room-ktx:2.4.2"
+    //implementation "androidx.room:room-runtime:2.4.2"
+    //annotationProcessor "androidx.room:room-compiler:2.4.2"
+    //kapt "androidx.room:room-compiler:2.4.2"
+    //implementation "androidx.room:room-ktx:2.4.2"
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
-    // For Robolectric tests.
-    testImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
-    // ...with Kotlin.
-    kaptTest 'com.google.dagger:hilt-android-compiler:2.38.1'
-
-    // For instrumented tests.
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
-    // ...with Kotlin.
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
-
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
 
 
-    // Optional -- Robolectric environment
-    testImplementation "androidx.test:core-ktx:1.4.0"
-    // Optional -- Mockito framework
-    testImplementation "org.mockito:mockito-core:4.6.1"
-    // Optional -- mockito-kotlin
+    // Dependencies for local unit tests
+    testImplementation 'junit:junit:4.13.2'
+    //testImplementation "org.hamcrest:hamcrest-all:1.3"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.robolectric:robolectric:4.8.1"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.3"
+    //testImplementation "org.mockito:mockito-core:4.6.1"
+    testImplementation "androidx.test:core:1.4.0"
+    testImplementation "androidx.test:rules:1.4.0"
+    testImplementation "androidx.test:core:1.4.0"
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
-    // Optional -- Mockk framework
-    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+    //testImplementation 'io.mockk:mockk:1.12.4'
+
+    // Dependencies for Android instrumented unit tests
+    //androidTestImplementation "junit:junit:4.13.1"
+    //androidTestImplementation "org.mockito:mockito-core:4.6.1"
+    //androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
+
+    // Testing code should not be included in the main code.
+    // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
+    //debugImplementation "androidx.fragment:fragment-testing:1.4.1"
+    //implementation "androidx.test:core:1.4.0"
+
+    // AndroidX Test - JVM testing
+    testImplementation "androidx.test:core-ktx:1.4.0"
+    testImplementation "androidx.test.ext:junit:1.1.3"
+
+    // AndroidX Test - Instrumented testing
+    //androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    //androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
+
+    // For dagger
+    testImplementation 'com.google.dagger:hilt-android-testing:2.42'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.42'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.42'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.42'
+
+    // Kotlin
+    //implementation "androidx.fragment:fragment-ktx:1.4.1"
 
 }
 
