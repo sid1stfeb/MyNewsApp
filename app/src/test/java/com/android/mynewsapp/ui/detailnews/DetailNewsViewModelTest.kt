@@ -3,7 +3,7 @@ package com.android.mynewsapp.ui.detailnews
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.android.mynewsapp.data.network.FakeData
+import com.android.mynewsapp.network.FakeData
 import com.android.mynewsapp.other.Util
 import org.junit.Before
 import org.junit.Rule
