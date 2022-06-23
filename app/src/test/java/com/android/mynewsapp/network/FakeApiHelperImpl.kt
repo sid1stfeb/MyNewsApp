@@ -3,7 +3,6 @@ package com.android.mynewsapp.network
 import com.android.mynewsapp.data.model.NewsItem
 import com.android.mynewsapp.data.model.NewsList
 import com.android.mynewsapp.data.network.ApiHelper
-import com.android.mynewsapp.data.network.FakeData
 import retrofit2.Response
 
 class FakeApiHelperImpl : ApiHelper {

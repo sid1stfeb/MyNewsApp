@@ -1,4 +1,4 @@
-package com.android.mynewsapp.data.network
+package com.android.mynewsapp.network
 
 import com.android.mynewsapp.data.model.NewsItem
 
